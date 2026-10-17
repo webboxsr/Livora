@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0e18">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Livora</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Masuk & Buat akun -->
+  <main class="auth" id="auth" hidden>
+    <section class="auth-card">
+      <a class="brand" href="#/masuk" style="padding:0"><i data-lucide="sprout"></i>Livora</a>
+      <p class="muted-sm" style="margin-top:6px">Atur hidupmu dalam satu tempat.</p>
+
+      <div class="tabs" role="tablist">
+        <button type="button" class="on" id="tabLogin" role="tab">Masuk</button>
+        <button type="button" id="tabRegister" role="tab">Buat akun</button>
+      </div>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="lName">Nama lengkap</label>
+          <input id="lName" autocomplete="username">
+        </div>
+        <div class="field">
+          <label for="lPass">Password</label>
+          <div class="pw">
+            <input id="lPass" type="password" autocomplete="current-password">
+            <button type="button" class="eye" aria-label="Tampilkan password"><i data-lucide="eye"></i></button>
+          </div>
+        </div>
+        <label class="check"><input type="checkbox" id="lRemember" checked>Tetap masuk di browser ini</label>
+        <button type="button" class="link-btn" id="forgotBtn">Lupa password?</button>
+        <p class="err" id="lErr" role="alert"></p>
+        <button class="btn" type="submit">Masuk</button>
+      </form>
+
+      <form id="registerForm" novalidate hidden>
+        <div class="field">
+          <label for="rName">Nama lengkap (dipakai untuk masuk)</label>
+          <input id="rName" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="rNick">Nama panggilan (untuk sapaan)</label>
+          <input id="rNick" maxlength="20">
+        </div>
+        <div class="field">
+          <label for="rPass">Password</label>
+          <div class="pw">
+            <input id="rPass" type="password" autocomplete="new-password">
+            <button type="button" class="eye" aria-label="Tampilkan password"><i data-lucide="eye"></i></button>
+          </div>
+          <div class="meter"><i id="meterBar"></i></div>
+          <small class="muted-sm" id="meterText">Minimal 8 karakter</small>
+        </div>
+        <div class="field">
+          <label for="rPass2">Konfirmasi password</label>
+          <div class="pw">
+            <input id="rPass2" type="password" autocomplete="new-password">
+            <button type="button" class="eye" aria-label="Tampilkan password"><i data-lucide="eye"></i></button>
+          </div>
+        </div>
+        <p class="err" id="rErr" role="alert"></p>
+        <button class="btn" type="submit">Daftar</button>
+      </form>
+
+      <form id="resetForm" novalidate hidden>
+        <h2>Lupa password</h2>
+        <p class="muted-sm">Masukkan nama lengkap akunmu, lalu buat password baru. Datamu tidak akan dihapus.</p>
+        <div class="field">
+          <label for="fName">Nama lengkap</label>
+          <input id="fName" autocomplete="username">
+        </div>
+        <div class="field">
+          <label for="fPass">Password baru</label>
+          <div class="pw">
+            <input id="fPass" type="password" autocomplete="new-password">
+            <button type="button" class="eye" aria-label="Tampilkan password"><i data-lucide="eye"></i></button>
+          </div>
+        </div>
+        <div class="field">
+          <label for="fPass2">Konfirmasi password baru</label>
+          <div class="pw">
+            <input id="fPass2" type="password" autocomplete="new-password">
+            <button type="button" class="eye" aria-label="Tampilkan password"><i data-lucide="eye"></i></button>
+          </div>
+        </div>
+        <p class="err" id="fErr" role="alert"></p>
+        <button class="btn" type="submit">Simpan password baru</button>
+        <button class="btn ghost" type="button" id="backLogin">Kembali ke Masuk</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Kerangka aplikasi: sidebar + header, isi halaman masuk ke #content -->
+  <div class="app" id="appShell" hidden>
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#/beranda"><i data-lucide="sprout"></i>Livora</a>
+
+      <nav aria-label="Navigasi utama">
+        <a class="nav-item" href="#/beranda" data-route="beranda"><i data-lucide="house"></i>Beranda</a>
+        <a class="nav-item" href="#/tugas" data-route="tugas"><i data-lucide="square-check-big"></i>Tugas</a>
+        <a class="nav-item" href="#/jadwal" data-route="jadwal"><i data-lucide="calendar"></i>Jadwal</a>
+        <a class="nav-item" href="#/kebiasaan" data-route="kebiasaan"><i data-lucide="target"></i>Kebiasaan</a>
+        <a class="nav-item" href="#/tujuan" data-route="tujuan"><i data-lucide="trophy"></i>Tujuan</a>
+        <a class="nav-item" href="#/catatan" data-route="catatan"><i data-lucide="file-text"></i>Catatan</a>
+        <a class="nav-item" href="#/keuangan" data-route="keuangan"><i data-lucide="wallet"></i>Keuangan</a>
+      </nav>
+
+      <a class="nav-item" href="#/pengaturan" data-route="pengaturan"><i data-lucide="settings"></i>Pengaturan</a>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Buka atau tutup menu samping" title="Buka/tutup menu"><i data-lucide="panel-left"></i></button>
+
+        <div class="hello">
+          <h1 id="pageTitle"></h1>
+          <p id="pageSub"></p>
+        </div>
+
+        <div class="top-actions">
+          <span id="topExtra" style="display:contents"></span>
+          <span class="date"><i data-lucide="calendar"></i><span id="today"></span></span>
+          <button class="icon-btn" id="themeBtn" aria-label="Ganti tema"><i data-lucide="sun"></i></button>
+          <button class="icon-btn" id="logoutBtn" aria-label="Keluar" title="Keluar"><i data-lucide="log-out"></i></button>
+          <a class="avatar" id="avatar" href="#/profil" aria-label="Profil"></a>
+        </div>
+      </header>
+
+      <div id="content"></div>
+    </main>
+
+    <!-- Navigasi bawah (ponsel & layar kecil) -->
+    <nav class="bottom-nav" id="bottomNav" aria-label="Navigasi bawah">
+      <a href="#/beranda" data-route="beranda"><i data-lucide="house"></i><span>Beranda</span></a>
+      <a href="#/tugas" data-route="tugas"><i data-lucide="square-check-big"></i><span>Tugas</span></a>
+      <a href="#/jadwal" data-route="jadwal"><i data-lucide="calendar"></i><span>Jadwal</span></a>
+      <a href="#/kebiasaan" data-route="kebiasaan"><i data-lucide="target"></i><span>Kebiasaan</span></a>
+      <button type="button" id="moreBtn" aria-haspopup="dialog"><i data-lucide="layout-grid"></i><span>Menu</span></button>
+    </nav>
+
+    <div class="sheet" id="sheet" hidden>
+      <div class="sheet-panel" role="dialog" aria-label="Menu lainnya">
+        <div class="sheet-grid">
+          <a href="#/tujuan" data-route="tujuan"><i data-lucide="trophy"></i>Tujuan</a>
+          <a href="#/catatan" data-route="catatan"><i data-lucide="file-text"></i>Catatan</a>
+          <a href="#/keuangan" data-route="keuangan"><i data-lucide="wallet"></i>Keuangan</a>
+          <a href="#/profil" data-route="profil"><i data-lucide="user"></i>Profil</a>
+          <a href="#/pengaturan" data-route="pengaturan"><i data-lucide="settings"></i>Pengaturan</a>
+          <button type="button" id="sheetLogout"><i data-lucide="log-out"></i>Keluar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Isi halaman Beranda -->
+  <template id="tpl-beranda">
+    <div class="banner" id="banner" hidden>
+      <span id="bannerText"></span>
+      <button class="btn small" id="bannerBtn"></button>
+    </div>
+
+    <section class="grid stats" id="stats" aria-label="Ringkasan hari ini"></section>
+
+    <section class="grid mid">
+      <article class="card">
+        <div class="card-head">
+          <h2><i data-lucide="calendar"></i>Jadwal hari ini</h2>
+          <a class="link" href="#/jadwal">Lihat semua<i data-lucide="arrow-right"></i></a>
+        </div>
+        <div id="scheduleList"></div>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <h2><i data-lucide="chart-column"></i>Aktivitas mingguan</h2>
+          <span class="muted-sm">Jam fokus minggu ini</span>
+        </div>
+        <div class="chart">
+          <div class="y" id="chartY"></div>
+          <div class="plot">
+            <div class="bars" id="chartBars"></div>
+            <div class="days" id="chartDays"></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <h2><i data-lucide="target"></i>Kebiasaan</h2>
+          <a class="link" href="#/kebiasaan">Lihat semua<i data-lucide="arrow-right"></i></a>
+        </div>
+        <div id="habitList"></div>
+      </article>
+    </section>
+
+    <section class="grid bottom">
+      <article class="card">
+        <div class="card-head">
+          <h2><i data-lucide="timer"></i>Sesi fokus</h2>
+        </div>
+        <p class="muted-sm focus-sub">Tetap fokus. Selesaikan pekerjaanmu.</p>
+        <div class="focus">
+          <div class="timer" id="timeDisplay" role="timer" aria-live="off">25:00</div>
+          <button class="btn" id="timerBtn"><i data-lucide="play"></i><span>Mulai</span></button>
+          <div class="modes" role="radiogroup" aria-label="Jenis sesi">
+            <label><input type="radio" name="mode" value="pomodoro" checked>Pomodoro (25:00)</label>
+            <label><input type="radio" name="mode" value="short">Istirahat singkat (5:00)</label>
+            <label><input type="radio" name="mode" value="long">Istirahat panjang (15:00)</label>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <h2><i data-lucide="file-text"></i>Catatan cepat</h2>
+          <button class="icon-btn round" id="noteToggle" aria-label="Tambah catatan"><i data-lucide="plus"></i></button>
+        </div>
+        <div id="noteForm" hidden>
+          <textarea id="noteInput" maxlength="500" placeholder="Tulis catatan singkat…" aria-label="Isi catatan"></textarea>
+          <button class="btn small" id="noteSave">Simpan catatan</button>
+        </div>
+        <div id="noteList"></div>
+      </article>
+    </section>
+  </template>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+</body>
+</html>
